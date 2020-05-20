@@ -1,6 +1,6 @@
 .DayCalendar {
-  background-color: #fff;
-  color: #222;
+  background-color: var(--light);
+  color: var(--dark);
   height: 720px;
   position: relative;
   width: 700px;
