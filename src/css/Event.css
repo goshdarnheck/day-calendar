@@ -1,0 +1,10 @@
+.Event {
+  background-color: #eee;
+  overflow: hidden;
+  padding: 0 1em;
+  position: absolute;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  z-index: 1;
+}

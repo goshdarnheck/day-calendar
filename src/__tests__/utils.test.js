@@ -1,4 +1,4 @@
-import { getRandomInt, getRandomEvent } from "../lib/utils";
+import { getRandomInt, getRandomEvent, getRandomEvents } from "../lib/utils";
 import {
   DAY_MIN_MINUTES,
   DAY_MAX_MINUTES,
@@ -31,8 +31,26 @@ describe("getRandomEvent", () => {
 
   it("generates a valid end time", () => {
     const event = getRandomEvent();
+
     expect(typeof event.end).toBe("number");
     expect(event.end).toBeLessThanOrEqual(DAY_MAX_MINUTES);
     expect(event.end >= event.start + EVENT_MIN_MINUTES).toBe(true);
+  });
+});
+
+describe("getRandomEvents", () => {
+  it("returns an array", () => {
+    const events = getRandomEvents();
+    expect(Object.prototype.toString.call(events)).toBe("[object Array]");
+  });
+
+  it("returns an array of the right length", () => {
+    const events = getRandomEvents(12);
+    expect(events.length).toBe(12);
+  });
+
+  it("returns an array of the right length", () => {
+    const events = getRandomEvents(2);
+    expect(events[0].start <= events[1].start).toBe(true);
   });
 });
