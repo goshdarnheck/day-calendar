@@ -4,6 +4,7 @@ import {
   getRandomEvents,
   getRandomColour,
   getRandomEventTitle,
+  doEventsOverlap,
 } from "../lib/utils";
 
 import {
@@ -89,5 +90,42 @@ describe("getRandomColour()", () => {
 
     expect(parseInt(match[1])).toBeGreaterThanOrEqual(0);
     expect(parseInt(match[1])).toBeLessThanOrEqual(360);
+  });
+});
+
+describe("doEventsOverlap()", () => {
+  it("returns true when passed events where one starts before the other ends", () => {
+    const eventA = { start: 0, end: 90 };
+    const eventB = { start: 30, end: 120 };
+    const overlap = doEventsOverlap(eventA, eventB);
+    expect(overlap).toBe(true);
+  });
+
+  it("returns true when passed events w/ same start times", () => {
+    const eventA = { start: 0, end: 90 };
+    const eventB = { start: 0, end: 120 };
+    const overlap = doEventsOverlap(eventA, eventB);
+    expect(overlap).toBe(true);
+  });
+
+  it("returns true when passed events w/ same end times", () => {
+    const eventA = { start: 0, end: 90 };
+    const eventB = { start: 15, end: 90 };
+    const overlap = doEventsOverlap(eventA, eventB);
+    expect(overlap).toBe(true);
+  });
+
+  it("returns false when passed events where first ends before the second starts", () => {
+    const eventA = { start: 0, end: 90 };
+    const eventB = { start: 120, end: 135 };
+    const overlap = doEventsOverlap(eventA, eventB);
+    expect(overlap).toBe(false);
+  });
+
+  it("returns false when passed events where second ends before the first starts", () => {
+    const eventA = { start: 190, end: 250 };
+    const eventB = { start: 120, end: 135 };
+    const overlap = doEventsOverlap(eventA, eventB);
+    expect(overlap).toBe(false);
   });
 });

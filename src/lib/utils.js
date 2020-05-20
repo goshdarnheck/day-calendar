@@ -36,8 +36,7 @@ export const getRandomEventTitle = () => {
   const noun = nouns[getRandomInt(0, nouns.length - 1)];
 
   return `${adjective} ${noun}`;
-}
-
+};
 
 // Returns an "Event" object with random start and end times
 export const getRandomEvent = () => {
@@ -74,4 +73,9 @@ export const getRandomEvents = (amount = 1) => {
 export const getRandomColour = () => {
   const hue = getRandomInt(0, 360);
   return `hsl(${hue}, 90%, 90%)`;
+};
+
+// Returns true if two events time ranges overlap
+export const doEventsOverlap = (a, b) => {
+  return a.end > b.start && a.start < b.end;
 };
