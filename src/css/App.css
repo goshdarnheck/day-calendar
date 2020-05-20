@@ -1,7 +1,41 @@
+:root {
+  --light: #fff;
+  --dark: #222;
+  --action: #08a;
+  --action-hover: #068;
+  --focus: #f60;
+}
+
 .App {
   align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   min-height: 100vh;
   min-width: 700px;
+}
+
+.App > *:first-child {
+  margin-bottom: 1em;
+}
+
+.App button {
+  background-color: var(--action);
+  border: 0;
+  border-radius: 0;
+  color: var(--light);
+  font-size: 1.2em;
+  font-variant: small-caps;
+  padding: 0.6em 1em;
+  letter-spacing: 0.05em;
+  transition: background-color 200ms;
+}
+
+.App button:hover {
+  cursor: pointer;
+  background-color: var(--action-hover);
+}
+
+.App button:focus {
+  box-shadow: 0 0 0 0.2em var(--focus) inset;
 }
