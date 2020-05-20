@@ -12,6 +12,33 @@ export const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+// Returns a randomized event title
+export const getRandomEventTitle = () => {
+  const adjectives = [
+    "Fun",
+    "Big",
+    "Boring",
+    "Weird",
+    "Important",
+    "Challenging",
+  ];
+  const nouns = [
+    "Party",
+    "Meeting",
+    "Bowling Game",
+    "Lunch",
+    "Game",
+    "Nap",
+    "Phone Call",
+  ];
+
+  const adjective = adjectives[getRandomInt(0, adjectives.length - 1)];
+  const noun = nouns[getRandomInt(0, nouns.length - 1)];
+
+  return `${adjective} ${noun}`;
+}
+
+
 // Returns an "Event" object with random start and end times
 export const getRandomEvent = () => {
   const start = getRandomInt(
@@ -19,7 +46,7 @@ export const getRandomEvent = () => {
     DAY_MAX_MINUTES - EVENT_MIN_MINUTES
   );
   const end = getRandomInt(start + EVENT_MIN_MINUTES, DAY_MAX_MINUTES);
-  const title = "Event Title";
+  const title = getRandomEventTitle();
 
   return {
     start: start,
@@ -41,4 +68,10 @@ export const getRandomEvents = (amount = 1) => {
   });
 
   return events;
-}
+};
+
+// Returns a colour with a random hue and static saturation and lightness values
+export const getRandomColour = () => {
+  const hue = getRandomInt(0, 360);
+  return `hsl(${hue}, 90%, 90%)`;
+};

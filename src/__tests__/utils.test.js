@@ -1,11 +1,18 @@
-import { getRandomInt, getRandomEvent, getRandomEvents } from "../lib/utils";
+import {
+  getRandomInt,
+  getRandomEvent,
+  getRandomEvents,
+  getRandomColour,
+  getRandomEventTitle,
+} from "../lib/utils";
+
 import {
   DAY_MIN_MINUTES,
   DAY_MAX_MINUTES,
   EVENT_MIN_MINUTES,
 } from "../lib/constants";
 
-describe("getRandomInt", () => {
+describe("getRandomInt()", () => {
   it("returns an integer in between range", () => {
     expect(getRandomInt(0, 1000)).toBeGreaterThanOrEqual(0);
     expect(getRandomInt(0, 1000)).toBeLessThanOrEqual(1000);
@@ -16,7 +23,7 @@ describe("getRandomInt", () => {
   });
 });
 
-describe("getRandomEvent", () => {
+describe("getRandomEvent()", () => {
   it("generates a valid title", () => {
     const event = getRandomEvent();
     expect(typeof event.title).toBe("string");
@@ -38,7 +45,7 @@ describe("getRandomEvent", () => {
   });
 });
 
-describe("getRandomEvents", () => {
+describe("getRandomEvents()", () => {
   it("returns an array", () => {
     const events = getRandomEvents();
     expect(Object.prototype.toString.call(events)).toBe("[object Array]");
@@ -49,8 +56,38 @@ describe("getRandomEvents", () => {
     expect(events.length).toBe(12);
   });
 
-  it("returns an array of the right length", () => {
+  it("objects in the array are sorted by first start time to last", () => {
     const events = getRandomEvents(2);
     expect(events[0].start <= events[1].start).toBe(true);
+  });
+});
+
+describe("getRandomEventTitle()", () => {
+  it("returns a string", () => {
+    const title = getRandomEventTitle();
+    expect(typeof title).toBe("string");
+    expect(title.length).toBeGreaterThan(0);
+  });
+});
+
+describe("getRandomColour()", () => {
+  it("returns a string", () => {
+    const colour = getRandomColour();
+    expect(typeof colour).toBe("string");
+  });
+
+  it("returns a hsl() value", () => {
+    const hslRegex = /hsl\([0-9]+,\s?[0-9]+%,\s?[0-9]+%\)/;
+    const colour = getRandomColour();
+    expect(colour).toMatch(hslRegex);
+  });
+
+  it("returns a valid hue", () => {
+    const hueRegex = /hsl\(([0-9]+),/;
+    const colour = getRandomColour();
+    const match = colour.match(hueRegex);
+
+    expect(parseInt(match[1])).toBeGreaterThanOrEqual(0);
+    expect(parseInt(match[1])).toBeLessThanOrEqual(360);
   });
 });
