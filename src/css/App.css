@@ -1,9 +1,9 @@
 :root {
   --light: #fff;
   --dark: #222;
-  --action: #08a;
-  --action-hover: #068;
-  --focus: #f60;
+  --primary: #08a;
+  --primary-alt: #068;
+  --accent: #f60;
 }
 
 .App {
@@ -20,12 +20,12 @@
 }
 
 .App button {
-  background-color: var(--action);
+  background-color: var(--primary);
   border: 0;
   border-radius: 0;
   color: var(--light);
   font-size: 1.2em;
-  font-variant: small-caps;
+  text-transform: uppercase;
   padding: 0.6em 1em;
   letter-spacing: 0.05em;
   transition: background-color 200ms;
@@ -33,9 +33,13 @@
 
 .App button:hover {
   cursor: pointer;
-  background-color: var(--action-hover);
+  background-color: var(--primary-alt);
 }
 
 .App button:focus {
-  box-shadow: 0 0 0 0.2em var(--focus) inset;
+  box-shadow: 0 0 0 0.2em var(--accent) inset;
+}
+
+.App button:active {
+  background-color: var(--accent);
 }

@@ -1,8 +1,9 @@
 .Event {
   background-color: #eee;
+  box-shadow: 0 0 0 0.3em rgba(0, 0, 0, 0.1) inset;
   overflow: hidden;
-  padding: 0.4em 0.6em;
-  position: absolute;
+  font-size: 0.8em;
+  padding: 0.2em 0.6em;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;

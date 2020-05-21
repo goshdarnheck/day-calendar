@@ -5,6 +5,8 @@ import {
   getRandomColour,
   getRandomEventTitle,
   doEventsOverlap,
+  fitEventsInColumns,
+  getNumEmptyColumnsAfterEvent,
 } from "../lib/utils";
 
 import {
@@ -127,5 +129,45 @@ describe("doEventsOverlap()", () => {
     const eventB = { start: 120, end: 135 };
     const overlap = doEventsOverlap(eventA, eventB);
     expect(overlap).toBe(false);
+  });
+});
+
+describe("fitEventsInColumns()", () => {
+  it("given two events that do not overlap, returns a single column w/ both events", () => {
+    const eventA = { start: 0, end: 30 };
+    const eventB = { start: 45, end: 60 };
+    const columnizedEvents = fitEventsInColumns([eventA, eventB]);
+
+    expect(columnizedEvents.length).toBe(1);
+    expect(columnizedEvents[0].length).toBe(2);
+  });
+
+  it("given two events that overlap, returns a two column w/ one event each", () => {
+    const eventA = { start: 0, end: 60 };
+    const eventB = { start: 45, end: 60 };
+    const columnizedEvents = fitEventsInColumns([eventA, eventB]);
+
+    expect(columnizedEvents.length).toBe(2);
+    expect(columnizedEvents[0].length).toBe(1);
+    expect(columnizedEvents[1].length).toBe(1);
+  });
+});
+
+describe("getNumEmptyColumnsAfterEvent()", () => {
+  it("calculates correct amount of empty columns to the right of an event", () => {
+    const events = [
+      { start: 0, end: 60 },
+      { start: 90, end: 120 },
+      { start: 100, end: 120 },
+    ];
+    const columnizedEvents = fitEventsInColumns(events);
+
+    const empty = getNumEmptyColumnsAfterEvent(
+      events[0],
+      1,
+      columnizedEvents
+    );
+
+    expect(empty).toBe(1);
   });
 });

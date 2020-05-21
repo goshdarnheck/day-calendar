@@ -21,6 +21,11 @@ export const getRandomEventTitle = () => {
     "Weird",
     "Important",
     "Challenging",
+    "Mysterious",
+    "Casual",
+    "Business",
+    "Suspicious",
+    "Friendly",
   ];
   const nouns = [
     "Party",
@@ -30,6 +35,9 @@ export const getRandomEventTitle = () => {
     "Game",
     "Nap",
     "Phone Call",
+    "Laser Tag",
+    "Bird Watching",
+    "Coffee"
   ];
 
   const adjective = adjectives[getRandomInt(0, adjectives.length - 1)];
@@ -78,4 +86,60 @@ export const getRandomColour = () => {
 // Returns true if two events time ranges overlap
 export const doEventsOverlap = (a, b) => {
   return a.end > b.start && a.start < b.end;
+};
+
+// Builds an array of "columns", each an array filled with events
+// events that do not overlap are added to the first column,
+// the remaining events are added to a new column recursively
+export const fitEventsInColumns = (events, columns = []) => {
+  const columnIndex = columns.length;
+  columns.push([]);
+
+  const remainingEvents = events.filter((nextEvent) => {
+    let fits = true;
+
+    columns[columnIndex].forEach((currentEvent) => {
+      if (doEventsOverlap(currentEvent, nextEvent)) {
+        fits = false;
+      }
+    });
+
+    if (fits) {
+      columns[columnIndex].push(nextEvent);
+      return false;
+    }
+
+    return true;
+  });
+
+  if (remainingEvents.length > 0) {
+    fitEventsInColumns(remainingEvents, columns);
+  }
+
+  return columns;
+};
+
+// Calculates the number of columns after "startColumn" that do not overlap
+// with
+export const getNumEmptyColumnsAfterEvent = (
+  event,
+  startColumn,
+  eventsByColumn
+) => {
+  let freeColumnsBeside = 0;
+  let blocked = false;
+
+  for (let i = startColumn; i < eventsByColumn.length; i++) {
+    if (!blocked) {
+      blocked = eventsByColumn[i].some((testEvent) => {
+        return doEventsOverlap(testEvent, event);
+      });
+
+      if (!blocked) {
+        freeColumnsBeside++;
+      }
+    }
+  }
+
+  return freeColumnsBeside;
 };
