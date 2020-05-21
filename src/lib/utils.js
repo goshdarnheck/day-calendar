@@ -37,7 +37,7 @@ export const getRandomEventTitle = () => {
     "Phone Call",
     "Laser Tag",
     "Bird Watching",
-    "Coffee"
+    "Coffee",
   ];
 
   const adjective = adjectives[getRandomInt(0, adjectives.length - 1)];
@@ -141,4 +141,29 @@ export const getNumEmptyColumnsAfterEvent = (
   }
 
   return freeColumnsBeside;
+};
+
+// In this app, 0 == 9am, 45 == 9:45am etc.
+// this function converts those time integers to nicer values for display
+export const convertIntToTimeDisplay = (timeInt) => {
+  const minutes = timeInt % 60;
+  let hour = Math.floor(timeInt / 60) + 9;
+  let meridiem = "";
+
+  switch (hour) {
+    case 9:
+    case 10:
+    case 11:
+      meridiem = "am";
+      break;
+    default:
+      meridiem = "pm";
+      break;
+  }
+
+  if (hour >= 13) {
+    hour -= 12;
+  }
+
+  return `${hour}:${minutes.toString().padStart(2, "0")}${meridiem}`;
 };

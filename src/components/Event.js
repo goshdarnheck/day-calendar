@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../css/Event.css";
-import { getRandomColour, getNumEmptyColumnsAfterEvent } from "../lib/utils";
+import {
+  getRandomColour,
+  getNumEmptyColumnsAfterEvent,
+  convertIntToTimeDisplay,
+} from "../lib/utils";
 
 function Event({ event, columnIndex, columnizedEvents }) {
   const gridRowStart = event.start + 1; // CSS grid lines start at 1, not 0, so we need to add 1 to each
@@ -15,7 +19,9 @@ function Event({ event, columnIndex, columnizedEvents }) {
   return (
     <div
       className="Event"
-      title={`${event.title}, ${event.start} - ${event.end}`}
+      title={`${event.title}, ${convertIntToTimeDisplay(
+        event.start
+      )} - ${convertIntToTimeDisplay(event.end)}`}
       style={{
         backgroundColor: getRandomColour(),
         gridColumnStart: gridColumnStart,
@@ -25,7 +31,10 @@ function Event({ event, columnIndex, columnizedEvents }) {
         zIndex: 1,
       }}
     >
-      {event.title}
+      <div>{event.title}</div>
+      <div>{`${convertIntToTimeDisplay(
+        event.start
+      )} - ${convertIntToTimeDisplay(event.end)}`}</div>
     </div>
   );
 }

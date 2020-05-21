@@ -7,6 +7,7 @@ import {
   doEventsOverlap,
   fitEventsInColumns,
   getNumEmptyColumnsAfterEvent,
+  convertIntToTimeDisplay,
 } from "../lib/utils";
 
 import {
@@ -162,12 +163,30 @@ describe("getNumEmptyColumnsAfterEvent()", () => {
     ];
     const columnizedEvents = fitEventsInColumns(events);
 
-    const empty = getNumEmptyColumnsAfterEvent(
-      events[0],
-      1,
-      columnizedEvents
-    );
+    const empty = getNumEmptyColumnsAfterEvent(events[0], 1, columnizedEvents);
 
     expect(empty).toBe(1);
+  });
+});
+
+describe("convertIntToTimeDisplay()", () => {
+  it("0 -> 9:00am", () => {
+    const displayTime = convertIntToTimeDisplay(0);
+    expect(displayTime).toBe("9:00am");
+  });
+
+  it("meridiem changes after noon", () => {
+    const displayTime = convertIntToTimeDisplay(180);
+    expect(displayTime).toBe("12:00pm");
+  });
+
+  it("minutes calculated properly", () => {
+    const displayTime = convertIntToTimeDisplay(205);
+    expect(displayTime).toBe("12:25pm");
+  });
+
+  it("hours past noon aren't 13 etc.", () => {
+    const displayTime = convertIntToTimeDisplay(265);
+    expect(displayTime).toBe("1:25pm");
   });
 });
