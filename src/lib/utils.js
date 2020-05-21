@@ -119,8 +119,7 @@ export const fitEventsInColumns = (events, columns = []) => {
   return columns;
 };
 
-// Calculates the number of columns after "startColumn" that do not overlap
-// with
+// Calculates the number of columns after "startColumn" that do not overlap with "event"
 export const getNumEmptyColumnsAfterEvent = (
   event,
   startColumn,
